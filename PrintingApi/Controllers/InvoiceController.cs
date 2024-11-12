@@ -22,7 +22,7 @@ namespace PrintingApi.Controllers
 
 
         [HttpPost]
-        public async Task<InvoiceDetails> AddStudentAsync(InvoiceDetails invoice)
+        public async Task<InvoiceDetails> AddInvoiceAsync(InvoiceDetails invoice)
         {
             var invoiced = await mediator.Send(new CreateInvoiceCommand(
                 invoice.Company, 
