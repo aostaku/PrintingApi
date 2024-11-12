@@ -40,7 +40,7 @@ namespace PrintingApi.Controllers
             var printer = new ImmediateNetworkPrinter(new ImmediateNetworkPrinterSettings() { ConnectionString = $"{hostnameOrIp}:{port}", PrinterName = "TestPrinter" });
 
             var e = new EPSON();
-            printer.WriteAsync(
+            await printer.WriteAsync(
               ByteSplicer.Combine(
                 e.CenterAlign(),
                 e.PrintLine($"{invoice.Company}"),
