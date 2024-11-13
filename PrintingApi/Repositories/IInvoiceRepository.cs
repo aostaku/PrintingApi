@@ -6,6 +6,8 @@ namespace PrintingApi.Repositories
     {
 
         public Task<InvoiceDetails> AddInvoice(InvoiceDetails invoiceDetails);
+   
+
 
     }
 }

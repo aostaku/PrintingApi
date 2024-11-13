@@ -5,28 +5,33 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PrintingApi.Commands;
 using PrintingApi.Model;
+using SixLabors.ImageSharp;
 
 namespace PrintingApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InvoiceController:ControllerBase 
+    public class InvoiceController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly IConfiguration _configuration;
 
-        public InvoiceController(IMediator mediator)
+ 
+
+        public InvoiceController(IMediator mediator, IConfiguration configuration)
         {
             this.mediator = mediator;
+            _configuration = configuration;
         }
-
-
+         
+        
 
         [HttpPost]
         public async Task<InvoiceDetails> AddInvoiceAsync(InvoiceDetails invoice)
         {
             var invoiced = await mediator.Send(new CreateInvoiceCommand(
                 invoice.Company, 
-                invoice.StreetAdress,
+                invoice.StreetAddress,
                 invoice.CityZipCode,
                 invoice.Website,
                 invoice.Date,
@@ -35,8 +40,9 @@ namespace PrintingApi.Controllers
                 ));
 
 
-            var hostnameOrIp = "10.35.91.177";
-            var port = 9100;
+            var hostnameOrIp = _configuration["CustomSettings:PrinterNetwork"];
+            var port = _configuration["CustomSettings:PrinterPort"];
+
             var printer = new ImmediateNetworkPrinter(new ImmediateNetworkPrinterSettings() { ConnectionString = $"{hostnameOrIp}:{port}", PrinterName = "TestPrinter" });
 
             var e = new EPSON();
@@ -44,7 +50,7 @@ namespace PrintingApi.Controllers
               ByteSplicer.Combine(
                 e.CenterAlign(),
                 e.PrintLine($"{invoice.Company}"),
-                e.PrintLine($"{invoice.StreetAdress}"),
+                e.PrintLine($"{invoice.StreetAddress}"),
                 e.PrintLine($"{invoice.CityZipCode}"),
                 e.SetStyles(PrintStyle.Underline),
                 e.PrintLine($"{invoice.Website}"),
@@ -56,8 +62,8 @@ namespace PrintingApi.Controllers
                 e.PrintLine(""),
                 e.SetStyles(PrintStyle.FontB),
                 e.PrintLine($"{invoice.ProductName}"),
-                e.PrintLine($"                                                 {invoice.Price}"),
-                e.PrintLine("----------------------------------------------------------------"),
+                e.PrintLine($"                                        {invoice.Price}"),
+                e.PrintLine("--------------------------------------------------------"),
                 e.RightAlign(),
                 e.PrintLine($"SUBTOTAL         {invoice.Price}"),
                 e.PrintLine($"Total Order:         {invoice.Price}"),
