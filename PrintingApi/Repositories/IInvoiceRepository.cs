@@ -6,6 +6,9 @@ namespace PrintingApi.Repositories
     {
 
         public Task<InvoiceDetails> AddInvoice(InvoiceDetails invoiceDetails);
+        public Task<InvoiceDetails> GetInvoiceById(int Id); 
+
+        public Task<PaginatedList<InvoiceDetails>> GetAllInvoices(int pageIndex,int PageSize);
 
     }
 }

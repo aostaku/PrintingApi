@@ -19,7 +19,7 @@ namespace PrintingApi.Handlers
             var invoicedetails = new InvoiceDetails()
             {
                 Company = command.Company, 
-                StreetAdress = command.StreetAdress,
+                StreetAddress = command.StreetAddress,
                 CityZipCode = command.CityZipCode,
                 Date = command.Date,
                 Price = command.Price,
