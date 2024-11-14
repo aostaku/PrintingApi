@@ -2,7 +2,7 @@
 {
     public class PaginatedList<T>
     { 
-        public List<T> Items { get; } 
+        public List<T> Data { get; } 
         public int PageIndex { get; }   
         public int TotalPages { get; }
 
@@ -12,7 +12,7 @@
 
         public PaginatedList(List<T> items,int pageIndex,int pageSize)
         {
-            Items = items;
+            Data = items;
             PageIndex = pageIndex;
             TotalPages = pageSize;
         }   
