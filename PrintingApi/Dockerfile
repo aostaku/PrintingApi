@@ -6,6 +6,7 @@ EXPOSE 5600
 EXPOSE 5681
 
 RUN ls -l /src/PrintingApi
+RUN ls -R /src
 
 # Image for building the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
