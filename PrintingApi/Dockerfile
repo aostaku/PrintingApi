@@ -9,7 +9,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["PrintingApi/PrintingApi.csproj", "PrintingApi/"]
+COPY ["PrintingApi/PrintingApi.csproj", "./"]
 RUN dotnet restore "./PrintingApi/./PrintingApi.csproj"
 COPY . .
 WORKDIR "/src/PrintingApi"

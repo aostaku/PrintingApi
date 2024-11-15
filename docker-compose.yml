@@ -15,7 +15,7 @@ services:
   printingapi:
     build:
       context: ./PrintingApi
-      dockerfile: Dockerfile
+      dockerfile: Printing/Dockerfile
     container_name: printing_api
     ports:
       - "8080:8080"
