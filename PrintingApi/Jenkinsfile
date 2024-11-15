@@ -1,0 +1,37 @@
+﻿pipeline {
+    agent any
+
+    environment {
+        DOCKER_COMPOSE_FILE = 'docker-compose.yml'
+        // Define the password as an environment variable or pull from Jenkins secrets
+        SA_PASSWORD = 'YourStr0ng!Passw0rd'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Clone the repository containing the project and Docker Compose file
+                git 'https://github.com/aostaku/PrintingApi.git'
+            }
+        }
+
+        stage('Build & Deploy Containers') {
+            steps {
+                script {
+                    // Ensure Docker Compose pulls the latest images and creates containers
+                    sh 'docker-compose down' // Stop and remove existing containers if any
+                    sh "docker-compose up -d --build"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                // Clean up dangling images and exited containers to save space
+                sh 'docker system prune -f'
+            }
+        }
+    }
+}

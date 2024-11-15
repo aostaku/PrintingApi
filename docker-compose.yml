@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "$uperAxess!00_!@#"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  printingapi:
+    build:
+      context: ./PrintingApi
+      dockerfile: Dockerfile
+    container_name: printing_api
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - sqlserver
+    environment:
+      ConnectionStrings__DefaultConnection: "Server=sql_server,1433;Database=PrintingDB;User=sa;Password=$uperAxess!00_!@#;TrustServerCertificate=True;"
+
+volumes:
+  sql_data: 
