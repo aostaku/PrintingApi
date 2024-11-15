@@ -19,12 +19,12 @@ RUN dotnet restore "./PrintingApi/PrintingApi.csproj"
 # Copy the rest of the application and build
 COPY . .
 WORKDIR "/src/PrintingApi"
-RUN dotnet build "./PrintingApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "PrintingApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Publish the application
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./PrintingApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "PrintingApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Final runtime image
 FROM base AS final
