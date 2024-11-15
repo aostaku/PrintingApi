@@ -11,11 +11,12 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Copy the project file and restore dependencies
-COPY PrintingApi.csproj ./
-RUN dotnet restore "PrintingApi.csproj"
+COPY PrintingApi/PrintingApi.csproj PrintingApi/
+RUN dotnet restore "PrintingApi/PrintingApi.csproj"
 
 # Copy the entire application and build
 COPY . .
+WORKDIR "/src/PrintingApi"
 RUN dotnet build "PrintingApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Publish the application
