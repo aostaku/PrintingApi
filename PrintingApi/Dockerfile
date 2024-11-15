@@ -5,6 +5,9 @@ WORKDIR /app
 EXPOSE 5600
 EXPOSE 5681
 
+COPY ./https/aspnetapp.pfx /https/aspnetapp.pfx
+RUN dotnet dev-certs https --trust
+
 # Image for building the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
