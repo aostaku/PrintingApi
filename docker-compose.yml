@@ -16,8 +16,8 @@ services:
       dockerfile: PrintingApi/Dockerfile
     container_name: printing_api
     ports:
-      - "8080:8080"
-      - "8081:8081"
+      - "5600:5600"
+      - "5681:5681"
     depends_on:
       - sqlserver
     environment:

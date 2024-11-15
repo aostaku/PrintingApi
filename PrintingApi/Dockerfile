@@ -1,24 +1,32 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
+# Base image for running the application
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 5600
+EXPOSE 5681
 
+RUN ls -l /src/PrintingApi
+
+# Image for building the application
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["PrintingApi/PrintingApi.csproj", "./"]
-RUN dotnet restore "./PrintingApi/./PrintingApi.csproj"
+
+# Copy the project file and restore dependencies
+COPY ["PrintingApi/PrintingApi.csproj", "./PrintingApi/"]
+RUN dotnet restore "./PrintingApi/PrintingApi.csproj"
+
+# Copy the rest of the application and build
 COPY . .
 WORKDIR "/src/PrintingApi"
 RUN dotnet build "./PrintingApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+# Publish the application
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./PrintingApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+# Final runtime image
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
