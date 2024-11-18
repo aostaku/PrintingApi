@@ -11,7 +11,7 @@
         stage('Checkout') {
             steps {
                 // Clone the repository containing the project and Docker Compose file
-                git 'https://github.com/aostaku/PrintingApi.git'
+                 git branch: 'main', url: 'https://github.com/aostaku/PrintingApi.git/'
             }
         }
 

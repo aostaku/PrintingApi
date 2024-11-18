@@ -3,7 +3,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: sqlserver
     environment:
-      SA_PASSWORD: "$uperAxess!00_!@#"
+      SA_PASSWORD: "k#0XA08g)%Rt_1234"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
@@ -16,12 +16,11 @@ services:
       dockerfile: PrintingApi/Dockerfile
     container_name: printing_api
     ports:
-      - "5600:5600"
-      - "5681:5681"
+      - "5681:8081"
     depends_on:
       - sqlserver
     environment:
-      ConnectionStrings__DefaultConnection: "Server=sql_server,1433;Database=PrintingDB;User=sa;Password=$uperAxess!00_!@#;TrustServerCertificate=True;"
+      ConnectionStrings__DefaultConnection: "Server=sql_server,1433;Database=PrintingDB;User=sa;Password=k#0XA08g)%Rt_1234;TrustServerCertificate=True;"
 
 volumes:
   sql_data: 
