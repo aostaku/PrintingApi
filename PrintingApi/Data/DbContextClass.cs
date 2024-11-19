@@ -18,4 +18,5 @@ namespace PrintingApi.Data
 
         public DbSet<InvoiceDetails> Invoices { get; set; }
     }
+
 }
