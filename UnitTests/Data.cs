@@ -20,8 +20,24 @@ namespace UnitTests
                 Price = 24.6
             };
         }
-          
-        }
+
+        public static InvoiceDetails MockSampleInvoiceNotExisting()
+        {
+            return new InvoiceDetails
+            {
+                Id = -1,
+                Company = "N/A",
+                StreetAddress = "N/A",
+                CityZipCode = "N/A",
+                Website = "N/A",
+                Date = "N/A",
+                ProductName = "N/A",
+                Price = 0.00
+            };
+        } 
+        
+    }
+    
     }
 
  
