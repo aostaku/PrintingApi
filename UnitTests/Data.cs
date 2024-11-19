@@ -6,7 +6,7 @@ namespace UnitTests
     public static class TestData
         {
 
-        public static InvoiceDetails GetSampleInvoice()
+        public static InvoiceDetails MockSampleInvoice()
         {
             return new InvoiceDetails
             {

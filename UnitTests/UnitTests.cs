@@ -16,22 +16,21 @@ namespace UnitTests
             var mockRepository = new Mock<IInvoiceRepository>();
 
             mockRepository.Setup(repo => repo.AddInvoice(It.IsAny<InvoiceDetails>()))
-           .ReturnsAsync((InvoiceDetails invoice) => new InvoiceDetails
-           {
-           Id = invoice.Id,
-           Company = invoice.Company,
-           StreetAddress = invoice.StreetAddress,
-           CityZipCode = invoice.CityZipCode,
-           Website = invoice.Website,
-           Date = invoice.Date,
-           ProductName = invoice.ProductName,
-           Price = invoice.Price
-           });
+                .ReturnsAsync((InvoiceDetails invoice) => new InvoiceDetails
+                {
+                    Id = invoice.Id,
+                    Company = invoice.Company,
+                    StreetAddress = invoice.StreetAddress,
+                    CityZipCode = invoice.CityZipCode,
+                    Website = invoice.Website,
+                    Date = invoice.Date,
+                    ProductName = invoice.ProductName,
+                    Price = invoice.Price
+                });
 
-            var newInvoice = TestData.GetSampleInvoice();
+            var newInvoice = TestData.MockSampleInvoice();
             var result = await mockRepository.Object.AddInvoice(newInvoice);
 
-            Assert.NotNull(result);
             Assert.Equal(newInvoice.Id, result.Id);
             Assert.Equal(newInvoice.Company, result.Company);
             Assert.Equal(newInvoice.StreetAddress, result.StreetAddress);
@@ -45,6 +44,17 @@ namespace UnitTests
         [Fact] 
         public async Task InvoiceIsNotNull()
         {
+            var mockRepository = new Mock<IInvoiceRepository>();
+            var newInvoice = TestData.MockSampleInvoice();
+            int invoiceId = 2;
+
+            mockRepository.Setup(repo => repo.GetInvoiceById(It.Is<int>(id => id == invoiceId)))
+                .ReturnsAsync(newInvoice);
+
+ 
+            var result = await mockRepository.Object.GetInvoiceById(invoiceId);
+
+            Assert.NotNull(result);
 
         }
 
