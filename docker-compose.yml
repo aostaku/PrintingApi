@@ -20,7 +20,7 @@ services:
     depends_on:
       - sqlserver
     environment:
-      ConnectionStrings__DefaultConnection: "Server=sql_server,1433;Database=PrintingDB;User=sa;Password=k#0XA08g)%Rt_1234;TrustServerCertificate=True;"
+      ConnectionStrings__DefaultConnection: "Server=10.35.91.123,1433;Database=PrintingDB;User=sa;Password=k#0XA08g)%Rt_1234;TrustServerCertificate=True;"
 
 volumes:
   sql_data: 
