@@ -26,7 +26,6 @@ namespace PrintingApi.Handlers
                 ProductName = command.ProductName,
                 Website = command.Website,
             }; 
-
             return await _invoiceRepository.AddInvoice(invoicedetails);
         }
     }
