@@ -6,7 +6,7 @@ using System.Reflection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 builder.Services.AddDbContext<DbContextClass>();
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 
@@ -49,4 +49,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+
+
 
