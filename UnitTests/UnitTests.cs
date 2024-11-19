@@ -31,6 +31,7 @@ namespace UnitTests
             var newInvoice = TestData.MockSampleInvoice();
             var result = await mockRepository.Object.AddInvoice(newInvoice);
 
+            Assert.NotNull(result);
             Assert.Equal(newInvoice.Id, result.Id);
             Assert.Equal(newInvoice.Company, result.Company);
             Assert.Equal(newInvoice.StreetAddress, result.StreetAddress);
@@ -42,7 +43,7 @@ namespace UnitTests
         }
 
         [Fact] 
-        public async Task InvoiceIsNotNull()
+        public async Task ShouldReturnInvoiceWhenIdIsValid()
         {
             var mockRepository = new Mock<IInvoiceRepository>();
             var newInvoice = TestData.MockSampleInvoice();
@@ -50,12 +51,10 @@ namespace UnitTests
 
             mockRepository.Setup(repo => repo.GetInvoiceById(It.Is<int>(id => id == invoiceId)))
                 .ReturnsAsync(newInvoice);
-
  
             var result = await mockRepository.Object.GetInvoiceById(invoiceId);
 
             Assert.NotNull(result);
-
         }
 
         }
