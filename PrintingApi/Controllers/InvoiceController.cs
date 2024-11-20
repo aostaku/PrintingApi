@@ -38,12 +38,16 @@ namespace PrintingApi.Controllers
         }
 
         [HttpGet("{invoiceId}")]
-        public async Task<InvoiceDetails> GetInvoiceById(int invoiceId)
+        public async Task<IActionResult> GetInvoiceById(int invoiceId)
         {
             var invoice = await _mediator.Send(new GetInvoiceByIdQuery() { Id = invoiceId });
-            return invoice;
+            
+            if (invoice == null)
+            {
+                return NotFound($"Invoice with ID {invoiceId} not found.");
+            }
+            return Ok(invoice);
         }
-
         [HttpPost("print/{invoiceId}")]
         public async Task<IActionResult> PrintInvoiceById(int invoiceId)
         {
