@@ -12,20 +12,27 @@ namespace UnitTests
             : base(application)
         {
         }
-        
+
         [Fact]
         public async Task GET_RetrievesInvoicesById()
         {
-            var mockedInvoice = TestData.MockSampleInvoice();
-            var response = await _httpClient.GetAsync($"api/Invoice/{mockedInvoice.Id}");
-            response.EnsureSuccessStatusCode();
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var invoice = JsonConvert.DeserializeObject<InvoiceDetails>(responseBody);
-            Assert.NotNull(invoice);
-            Assert.Equal(mockedInvoice.Id, invoice.Id);
+            var mockedInvoice = TestData.MockSampleInvoice(); 
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/Invoice/{mockedInvoice.Id}");
+                response.EnsureSuccessStatusCode();
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var invoice = JsonConvert.DeserializeObject<InvoiceDetails>(responseBody);
+                Assert.NotNull(invoice);
+                Assert.Equal(mockedInvoice.Id, invoice.Id);
+            }
+            catch (HttpRequestException ex)
+            {
+                Assert.Fail($"{ex.Message}");
+            }
+        }
 
-        } 
-        
+
         [Fact]
         public async Task GET_RetrievesNotFoundInvoicesById()
         {
