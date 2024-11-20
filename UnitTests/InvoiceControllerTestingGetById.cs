@@ -16,19 +16,34 @@ namespace UnitTests
         [Fact]
         public async Task GET_RetrievesInvoicesById()
         {
-            var newInvoice = TestData.MockSampleInvoice();
-            var response = await _httpClient.GetAsync($"api/Invoice/{newInvoice.Id}");
+            var mockedInvoice = TestData.MockSampleInvoice();
+            var response = await _httpClient.GetAsync($"api/Invoice/{mockedInvoice.Id}");
+            response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             var invoice = JsonConvert.DeserializeObject<InvoiceDetails>(responseBody);
-            Assert.Equal(newInvoice.Id, invoice.Id);
+            Assert.NotNull(invoice);
+            Assert.Equal(mockedInvoice.Id, invoice.Id);
+
         } 
         
         [Fact]
         public async Task GET_RetrievesNotFoundInvoicesById()
         {
-            var newInvoice = TestData.MockSampleInvoiceNotExisting();
-            var response = await _httpClient.GetAsync($"api/Invoice/{newInvoice.Id}");
-            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            var mockedInvoice = TestData.MockSampleInvoiceNotExisting();
+
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/Invoice/{mockedInvoice.Id}");
+                Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+            }
+            catch (HttpRequestException ex)
+            {
+                
+                Assert.Fail($"{ex.Message}");
+            }
         }
+        
+        
+        
     }
 }
