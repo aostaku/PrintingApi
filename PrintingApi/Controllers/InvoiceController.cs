@@ -78,6 +78,31 @@ namespace PrintingApi.Controllers
             var invoices = await _mediator.Send(new GetInvoicesPaginationQuery() { PageIndex = pageIndex, PageSize = pageSize });
             return invoices;
         }
-    } 
- 
+
+
+        [HttpGet("heartbeat")]
+        public IActionResult GetHeartbeat()
+        {
+            try
+            {
+                using var ping = new System.Net.NetworkInformation.Ping();
+                var reply = ping.Send("8.8.8.8", 3000);
+
+                if (reply != null && reply.Status == System.Net.NetworkInformation.IPStatus.Success)
+                {
+                    return Ok();
+                }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            return BadRequest();
+        }
+
+
+
+
+    }
+
 }
